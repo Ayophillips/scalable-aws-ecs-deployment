@@ -1,3 +1,3 @@
 output "subnet_id" {
-  value = module.subnets.subnet_id
+  value = module.ecs_cluster.subnet_id
 }
