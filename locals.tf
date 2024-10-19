@@ -12,7 +12,7 @@ locals {
   task_memory                  = 512
   task_family                  = "apinfra-ecs-task"
   target_group_name            = "apinfra-ecs-target-group"
-  task_host_port               = 80
+  task_host_port               = 3000
   task_container_port          = 3000
   service_desired_count        = 1
   ecs_task_execution_role_name = "apinfra-ecs-task-execution-role"
