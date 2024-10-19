@@ -17,19 +17,19 @@ terraform {
   }
 }
 
-data "terraform_remote_state" "tf_state" {
-  backend = "s3"
-  config = {
-    bucket = "apinfra-tfstate"
-    key    = "apinfra/terraform.tfstate"
-    region = "us-east-1"
-  }
-}
+# data "terraform_remote_state" "tf_state" {
+#   backend = "s3"
+#   config = {
+#     bucket = "apinfra-tfstate"
+#     key    = "apinfra/terraform.tfstate"
+#     region = "us-east-1"
+#   }
+# }
 
 module "tf-state" {
   source              = "./modules/tf-state"
-  bucket_name         = data.terraform_remote_state.tf_state.outputs.bucket_name
-  dynamodb_table_name = data.terraform_remote_state.tf_state.outputs.dynamodb_table_name
+  bucket_name         = local.bucket_name
+  dynamodb_table_name = local.dynamodb_table_name
 }
 
 module "ecr_repo" {
