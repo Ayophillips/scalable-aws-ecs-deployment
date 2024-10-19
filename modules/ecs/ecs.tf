@@ -44,9 +44,14 @@ resource "aws_iam_role" "ecs_task_execution_role" {
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
 }
 
+resource "aws_iam_policy" "ecs_task_execution_role" {
+  name   = var.ecs_task_execution_role_name
+  policy = data.aws_iam_policy_document.ecs_task_execution_role_policy.json
+}
+
 resource "aws_iam_role_policy_attachment" "ecs_task_execution_role" {
   role       = aws_iam_role.ecs_task_execution_role.name
-  policy_arn = aws_iam_role.ecs_task_execution_role.arn
+  policy_arn = aws_iam_policy.ecs_task_execution_role.arn
 }
 
 resource "aws_alb" "alb" {
@@ -113,7 +118,7 @@ resource "aws_security_group" "service_sg" {
   ingress {
     from_port       = 80
     to_port         = 80
-    protocol        = "-1"
+    protocol        = "tcp"
     security_groups = [aws_security_group.alb_sg.id]
   }
   egress {
