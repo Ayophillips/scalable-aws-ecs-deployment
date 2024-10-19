@@ -7,6 +7,7 @@ terraform {
     region         = "us-east-1"
     dynamodb_table = "apinfra-tfstate-locking"
     encrypt        = true
+    profile        = "default"
   }
 
   required_providers {
