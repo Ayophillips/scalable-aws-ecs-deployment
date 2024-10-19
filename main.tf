@@ -2,12 +2,12 @@ terraform {
   required_version = "~> 1.3"
 
   backend "s3" {
-    bucket         = "apinfra-tfstate"
-    key            = "apinfra/terraform.tfstate"
-    region         = "us-east-1"
-    dynamodb_table = "apinfra-tfstate-locking"
-    encrypt        = true
-    profile        = "default"
+    bucket                      = "apinfra-tfstate"
+    key                         = "apinfra/terraform.tfstate"
+    region                      = "us-east-1"
+    dynamodb_table              = "apinfra-tfstate-locking"
+    encrypt                     = true
+    skip_credentials_validation = true
   }
 
   required_providers {
