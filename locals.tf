@@ -1,8 +1,6 @@
 locals {
-  bucket_name         = "apinfra-tfstate"
-  dynamodb_table_name = "apinfra-tfstate-locking"
-  ecr_repo_name       = "apinfra-app-repo"
-  cidr_block          = "10.0.0.0/16"
+  ecr_repo_name = "apinfra-app-repo"
+  cidr_block    = "10.0.0.0/16"
 
   ecs_cluster_name             = "apinfra-ecs-cluster"
   ecs_service_name             = "apinfra-ecs-service"
