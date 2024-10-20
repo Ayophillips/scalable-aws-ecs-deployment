@@ -65,6 +65,7 @@ resource "aws_alb" "alb" {
 resource "aws_security_group" "lb_sg" {
   name   = "apinfra-alb"
   vpc_id = var.vpc_id
+
   ingress {
     from_port   = 80
     to_port     = 80
@@ -76,6 +77,10 @@ resource "aws_security_group" "lb_sg" {
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  lifecycle {
+    create_before_destroy = true
   }
 }
 
