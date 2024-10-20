@@ -59,7 +59,13 @@ resource "aws_alb" "alb" {
   internal           = false
   load_balancer_type = "application"
   subnets            = [for subnet in aws_subnet.subnet : subnet.id]
-  security_groups    = []
+  security_groups    = [aws_security_group.lb_sg.id]
+
+  lifecycle {
+    # Reference the security group as a whole or individual attributes like `name`
+    replace_triggered_by = [aws_security_group.lb_sg]
+  }
+
 }
 
 resource "aws_security_group" "lb_sg" {
@@ -130,7 +136,7 @@ resource "aws_security_group" "service_sg" {
     from_port       = 80
     to_port         = 80
     protocol        = "tcp"
-    security_groups = []
+    security_groups = [aws_security_group.lb_sg.id]
   }
   egress {
     from_port   = 0
