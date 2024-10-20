@@ -50,10 +50,10 @@ resource "aws_internet_gateway" "apinfra_igw" {
   vpc_id = aws_vpc.apinfra_vpc.id
 }
 
-resource "aws_internet_gateway_attachment" "apinfra_igw" {
-  vpc_id              = aws_vpc.apinfra_vpc.id
-  internet_gateway_id = aws_internet_gateway.apinfra_igw.id
-}
+# resource "aws_internet_gateway_attachment" "apinfra_igw" {
+#   vpc_id              = aws_vpc.apinfra_vpc.id
+#   internet_gateway_id = aws_internet_gateway.apinfra_igw.id
+# }
 
 resource "aws_route_table" "apinfra_rtb" {
   vpc_id = aws_vpc.apinfra_vpc.id

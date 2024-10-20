@@ -56,6 +56,7 @@ resource "aws_iam_role_policy_attachment" "ecs_task_execution_role" {
 
 resource "aws_alb" "alb" {
   name               = var.alb_name
+  vpc_id             = var.vpc_id
   load_balancer_type = "application"
   subnets            = [for subnet in aws_subnet.subnet : subnet.id]
   security_groups    = [aws_security_group.alb_sg.id]
