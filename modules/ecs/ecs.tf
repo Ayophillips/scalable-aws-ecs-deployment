@@ -132,6 +132,8 @@ resource "aws_ecs_service" "app_service" {
 }
 
 resource "aws_security_group" "service_sg" {
+  name   = "ecs_service_sg"
+  vpc_id = var.vpc_id
   ingress {
     from_port       = 80
     to_port         = 80
