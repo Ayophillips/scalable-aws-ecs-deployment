@@ -14,24 +14,38 @@ resource "aws_subnet" "subnet" {
 }
 
 resource "aws_ecs_task_definition" "app_task" {
-  family                   = var.task_family
-  container_definitions    = <<DEFINITION
-  [
+  family = var.task_family
+  container_definitions = jsonencode([
     {
-      "name": "${var.task_name}",
-      "image": "${var.ecr_repo_url}",
-      "essential": true,
-      "portMappings": [
+      name      = var.task_name
+      image     = var.ecr_repo_url
+      essential = true
+      portMappings = [
         {
-          "containerPort": ${var.task_container_port},
-          "hostPort": ${var.task_host_port}
+          containerPort = var.task_container_port
+          hostPort      = var.task_host_port
         }
-      ],
-      "memory": ${var.task_memory},
-      "cpu": ${var.task_cpu}
+      ]
+      memory = var.task_memory
+      cpu    = var.task_cpu
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          "awslogs-group"         = aws_cloudwatch_log_group.ecs_service_logs.name
+          "awslogs-region"        = var.aws_region
+          "awslogs-stream-prefix" = "ecs"
+        }
+      }
+      healthCheck = {
+        command     = ["CMD-SHELL", "curl -f http://localhost:${var.task_container_port}/health || exit 1"]
+        interval    = 30
+        timeout     = 5
+        retries     = 3
+        startPeriod = 60
+      }
     }
-  ]
-  DEFINITION
+  ])
+
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
   memory                   = var.task_memory
@@ -128,6 +142,21 @@ resource "aws_ecs_service" "app_service" {
     target_group_arn = aws_lb_target_group.target_group.arn
     container_name   = aws_ecs_task_definition.app_task.family
     container_port   = var.task_container_port
+  }
+
+  deployment_controller {
+    type = "ECS"
+  }
+
+  deployment_circuit_breaker {
+    enable   = true
+    rollback = true
+  }
+  deployment_maximum_percent         = 200
+  deployment_minimum_healthy_percent = 100
+
+  lifecycle {
+    ignore_changes = [task_definition]
   }
 }
 

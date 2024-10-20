@@ -1,4 +1,5 @@
 locals {
+  region              = "us-east-1"
   bucket_name         = "apinfra-tfstate"
   dynamodb_table_name = "apinfra-tfstate-locking"
   ecr_repo_name       = "apinfra-app-repo"

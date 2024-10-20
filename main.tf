@@ -88,4 +88,5 @@ module "ecs_cluster" {
   service_desired_count        = local.service_desired_count
   alb_name                     = local.alb_name
   subnets                      = local.subnets
+  aws_region                   = local.region
 }
