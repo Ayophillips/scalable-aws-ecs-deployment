@@ -28,7 +28,15 @@ resource "aws_ecs_task_definition" "app_task" {
         }
       ],
       "memory": ${var.task_memory},
-      "cpu": ${var.task_cpu}
+      "cpu": ${var.task_cpu},
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": aws_cloudwatch_log_group.ecs_service_logs.name,
+          "awslogs-region": var.aws_region,
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
     }
   ]
   DEFINITION
