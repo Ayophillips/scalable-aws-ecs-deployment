@@ -63,7 +63,7 @@ resource "aws_alb" "alb" {
 }
 
 resource "aws_security_group" "alb_sg" {
-  name   = "apinfra-alb-sg"
+  name   = "apinfra-alb"
   vpc_id = var.vpc_id
   ingress {
     from_port   = 80
@@ -77,8 +77,6 @@ resource "aws_security_group" "alb_sg" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
-  depends_on = [aws_alb.alb]
 }
 
 resource "aws_lb_target_group" "target_group" {
