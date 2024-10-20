@@ -164,8 +164,8 @@ resource "aws_security_group" "service_sg" {
   name   = "ecs_service_sg"
   vpc_id = var.vpc_id
   ingress {
-    from_port       = 80
-    to_port         = 80
+    from_port       = 3000
+    to_port         = 3000
     protocol        = "tcp"
     security_groups = [aws_security_group.lb_sg.id]
   }
