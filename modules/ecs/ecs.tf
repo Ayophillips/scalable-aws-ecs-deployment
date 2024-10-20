@@ -59,10 +59,10 @@ resource "aws_alb" "alb" {
   internal           = false
   load_balancer_type = "application"
   subnets            = [for subnet in aws_subnet.subnet : subnet.id]
-  security_groups    = [aws_security_group.alb_sg.id]
+  security_groups    = [aws_security_group.lb_sg.id]
 }
 
-resource "aws_security_group" "alb_sg" {
+resource "aws_security_group" "lb_sg" {
   name   = "apinfra-alb"
   vpc_id = var.vpc_id
   ingress {
@@ -122,7 +122,7 @@ resource "aws_security_group" "service_sg" {
     from_port       = 80
     to_port         = 80
     protocol        = "tcp"
-    security_groups = [aws_security_group.alb_sg.id]
+    security_groups = [aws_security_group.lb_sg.id]
   }
   egress {
     from_port   = 0
