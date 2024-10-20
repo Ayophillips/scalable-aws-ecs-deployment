@@ -65,7 +65,7 @@ resource "aws_route_table" "apinfra_rtb" {
 }
 
 resource "aws_route_table_association" "public_subnet_association" {
-  for_each = { for subnet in module.ecs_cluster.subnet_id : subnet.id => subnet if subnet.map_public_ip_on_launch }
+  for_each = { for id, subnet in module.ecs_cluster.subnet_info : id => subnet if subnet.map_public_ip_on_launch }
 
   subnet_id      = each.value.id
   route_table_id = aws_route_table.apinfra_rtb.id
