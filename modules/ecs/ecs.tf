@@ -63,7 +63,7 @@ resource "aws_alb" "alb" {
 }
 
 resource "aws_security_group" "alb_sg" {
-  name   = "apinfra-alb-sg"
+  name   = "apinfra-alb"
   vpc_id = var.vpc_id
   ingress {
     from_port   = 80
