@@ -46,6 +46,31 @@ resource "aws_vpc" "apinfra_vpc" {
   }
 }
 
+resource "aws_internet_gateway" "apinfra_igw" {
+  vpc_id = aws_vpc.apinfra_vpc.id
+}
+
+resource "aws_internet_gateway_attachment" "apinfra_igw" {
+  vpc_id              = aws_vpc.apinfra_vpc.id
+  internet_gateway_id = aws_internet_gateway.apinfra_igw.id
+}
+
+resource "aws_route_table" "apinfra_rtb" {
+  vpc_id = aws_vpc.apinfra_vpc.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.apinfra_igw.id
+  }
+}
+
+resource "aws_route_table_association" "public_subnet_association" {
+  for_each = { for id, subnet in module.ecs_cluster.subnet_info : id => subnet if subnet.map_public_ip_on_launch }
+
+  subnet_id      = each.value.id
+  route_table_id = aws_route_table.apinfra_rtb.id
+}
+
 module "ecs_cluster" {
   source                       = "./modules/ecs"
   vpc_id                       = aws_vpc.apinfra_vpc.id
