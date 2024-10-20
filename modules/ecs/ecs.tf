@@ -36,6 +36,13 @@ resource "aws_ecs_task_definition" "app_task" {
           "awslogs-region": var.aws_region,
           "awslogs-stream-prefix": "ecs"
         }
+      },
+      "healthCheck": {
+        "command": [ "CMD-SHELL", "curl -f http://localhost:${var.task_container_port}/health || exit 1" ],
+        "interval": 30,
+        "timeout": 5,
+        "retries": 3,
+        "startPeriod": 60
       }
     }
   ]
@@ -136,6 +143,21 @@ resource "aws_ecs_service" "app_service" {
     target_group_arn = aws_lb_target_group.target_group.arn
     container_name   = aws_ecs_task_definition.app_task.family
     container_port   = var.task_container_port
+  }
+
+  deployment_controller {
+    type = "ECS"
+  }
+
+  deployment_circuit_breaker {
+    enable   = true
+    rollback = true
+  }
+  deployment_maximum_percent         = 200
+  deployment_minimum_healthy_percent = 100
+
+  lifecycle {
+    ignore_changes = [task_definition]
   }
 }
 
