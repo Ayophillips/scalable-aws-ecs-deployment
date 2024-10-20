@@ -77,6 +77,8 @@ resource "aws_security_group" "alb_sg" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+  depends_on = [aws_alb.alb]
 }
 
 resource "aws_lb_target_group" "target_group" {
