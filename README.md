@@ -43,10 +43,12 @@ Follow these steps to set up the project and deploy the infrastructure:
 2. **Configure AWS CLI**:
 
    Ensure that the AWS CLI is configured with the correct credentials and region.
-   ```bash
-   aws configure
 
-3. **Configure Input Parameters in locals.tf**:
+   bash
+   
+       aws configure
+
+4. **Configure Input Parameters in locals.tf**:
 
 This project uses locals.tf to define input parameters for the infrastructure. You can customize your VPC, ECR, ECS cluster settings, etc., within this file.
 
