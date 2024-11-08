@@ -43,8 +43,6 @@ Follow these steps to set up the project and deploy the infrastructure:
 2. **Configure AWS CLI**:
 
    Ensure that the AWS CLI is configured with the correct credentials and region.
-
-   bash
    
        aws configure
 
@@ -108,15 +106,11 @@ Follow these steps to set up the project and deploy the infrastructure:
 
   Run the following command to initialize Terraform and download the necessary providers:
   
-  bash
-  
       terraform init
   
   6. Plan and Apply Terraform Configuration
   
   Run the following Terraform commands to review and apply the configuration. This will provision the ECS clusters, services, security groups, VPC, and       other resources in your AWS account:
-  
-  bash
   
       terraform plan
       terraform apply
@@ -127,19 +121,14 @@ Follow these steps to set up the project and deploy the infrastructure:
 
   Once the infrastructure is set up, you need to push your Docker images to ECR. First, build your Docker image:
   
-  bash
-  
       docker build -t <your-image-name> .
   
   Then log into AWS ECR:
   
-  bash
   
       $(aws ecr get-login --no-include-email --region <your-region>)
   
   Tag your image and push it to the ECR repository:
-  
-  bash
   
       docker tag <your-image-name>:latest <aws_account_id>.dkr.ecr.<region>.amazonaws.com/<your-ecr-repo>:latest
       docker push <aws_account_id>.dkr.ecr.<region>.amazonaws.com/<your-ecr-repo>:latest
