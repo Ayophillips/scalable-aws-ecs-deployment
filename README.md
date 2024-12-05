@@ -108,7 +108,7 @@ Follow these steps to set up the project and deploy the infrastructure:
   
       terraform init
   
-  6. Plan and Apply Terraform Configuration
+6. Plan and Apply Terraform Configuration
   
   Run the following Terraform commands to review and apply the configuration. This will provision the ECS clusters, services, security groups, VPC, and       other resources in your AWS account:
   
